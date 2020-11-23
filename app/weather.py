@@ -22,8 +22,17 @@ def get_weather(lat, lon):
     return response.json()['properties']['timeseries'][0]['data']['instant']['details']['air_temperature']
 
 
-def weather():
+def weather_at_server():
     ip_address = get_ip_address()
+    lat, lon = get_geolocation(ip_address)
+    temp_celsius = get_weather(lat, lon)
+    
+    return f"""
+        Hello, <br>
+        At the location ({lat}, {lon}) of this App Server IP address ({ip_address}), the temperature is {temp_celsius} °C.
+    """
+
+def weather_at_client(ip_address):
     lat, lon = get_geolocation(ip_address)
     temp_celsius = get_weather(lat, lon)
     
@@ -34,4 +43,4 @@ def weather():
 
 
 if __name__ == '__main__':
-    print(weather().replace('<br>',''))
+    print(weather_at_server().replace('<br>',''))
